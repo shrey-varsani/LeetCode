@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * climbing_stairs
  */
-public class climbing_stairs {
+public class Climbing_stairs {
          // steps to reach nth stair
 
         // either 1 or 2
