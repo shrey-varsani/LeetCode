@@ -9,6 +9,8 @@ public class Frog_jump {
 
     public static boolean solve(int[] stones) {
         int len = stones.length;
+
+        if(len == 1) return true;
         
         memo = new int[len][len];
         for(int[] row: memo) {
@@ -30,13 +32,15 @@ public class Frog_jump {
         }
 
         for(int option = lastJump - 1; option <= lastJump + 1; option++) {
+            if(option <= 0) continue;
+
             int nextPosition = stones[idx] + option;
 
             // since sorted => use binary search
             int nextIdx = Arrays.binarySearch(stones, idx + 1, stones.length, nextPosition);
 
             if(nextIdx >= 0) {       // if stone exists
-                if(resolve(stones, nextIdx, lastJump)) {
+                if(resolve(stones, nextIdx, option)) {
                     // check if can find further => yes if find & store 1 
                     memo[idx][lastJump] = 1;
                     return true;
