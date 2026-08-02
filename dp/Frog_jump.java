@@ -7,7 +7,7 @@ public class Frog_jump {
 
     private static int[][] memo;
 
-    public static boolean solve(int[] stones) {
+    public static boolean canJump(int[] stones) {
         int len = stones.length;
 
         if(len == 1) return true;
@@ -51,4 +51,14 @@ public class Frog_jump {
         memo[idx][lastJump] = 0;
         return false;
     }
+
+    // public boolean canCross(int[] stones) {
+    //     int len = stones.length;
+
+    //     if(len == 1) return true;
+
+    //     for(int i=0; i<len; i++) {
+
+    //     }
+    // }
 }
