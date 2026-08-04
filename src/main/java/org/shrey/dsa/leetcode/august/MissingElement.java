@@ -10,9 +10,8 @@ Originally, nums contained every integer within a certain range. However, some i
 The smallest and largest integers of the original range are still present in nums.
 
 Return a sorted list of all the missing integers in this range. If no integers are missing, return an empty list.
-
  
- */
+*/
 
 public class MissingElement {
     public List<Integer> getMissing(int[] nums) {
