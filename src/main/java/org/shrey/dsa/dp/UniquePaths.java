@@ -21,9 +21,14 @@ public class UniquePaths {
     }
 
     public int dfs(int row, int col, int[][] dp, int x, int y) {
-        if(x == row - 1 || y == col - 1) return 1;
-        if(x >= row || y >= col) return 0;
+        if (row == 0 && col == 0) {
+            return 1;
+        }
 
+        if (row < 0 || col < 0) {
+            return 0;
+        }
+        
         if(dp[x][y] != -1) return dp[x][y];
 
         int toRight = dfs(row, col, dp, x, y + 1);
