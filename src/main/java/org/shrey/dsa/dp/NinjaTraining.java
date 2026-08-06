@@ -121,7 +121,9 @@ public class NinjaTraining {
     // dp[] solution => memo
 
     public int maxPoints(int[][] points) {
-        int[][] dp = new int[points.length][points.length];
+        int[][] dp = new int[points.length + 1][points.length];
+        // len + 1=> 4 choices => 3 for each forbidden and 4th for no forbidden 
+        // which is the starting day case usually
 
         for(int[] each: dp) {
             Arrays.fill(each, -1);
@@ -141,7 +143,7 @@ public class NinjaTraining {
             }
         }
 
-        if(dp[currDay][lastActivity + 1] != -1) {    
+        if(dp[currDay][lastActivity] != -1) {    
             // lastAcitivity + 1 => -1 + 1 = 0 => can't store anything at -1 index
             // get the current acitivity by doing (+ 1) in last one 
                // if have result of current day => return it 
@@ -158,10 +160,87 @@ public class NinjaTraining {
             
         }
 
-        dp[currDay][lastActivity + 1] = maxi;       // store at curr result before returning it
-        return dp[currDay][lastActivity + 1];       // curr day => lastDay + 1
-
+        return dp[currDay][lastActivity] = maxi;       // store at curr result and return it
     }
-    
+
+    // tablulation method
+    public int maxpoints(int[][] points) {
+        int len = points.length;
+
+        int[][] dp = new int[len + 1][len];
+
+        // base case => remove loop 
+        // assign the values directly
+
+        dp[0][0] = Math.max(points[0][1], points[0][2]);
+        dp[0][1] = Math.max(points[0][0], points[0][2]);
+        dp[0][2] = Math.max(points[0][0], points[0][1]);
+
+        // next case is => only when there is only one day in whole scenario
+        dp[0][3] = Math.max(points[0][3], Math.max(points[0][1], points[0][2]));
+
+        // from day 1 to day last 
+        for(int day=1; day<len-1; day++) {
+            // for each day => 4 possible options
+            for(int last=0; last<4; last++) {
+                // doing each task with keeping last activity in mind
+                dp[day][last] = 0;
+                for(int task=0; task<3; task++) {
+                    if(task != last) {
+                        int point = points[day][task] + dp[day-1][task];    // add prev points which gives max 
+
+                        // // update maxi => increase total points 
+                        // maxi = Math.max(dp[day][task], point);
+
+                        // because we're trying multiple choices and want to keep the best one.
+                        dp[day][last] = Math.max(point, dp[day][last]);
+                    }
+                }
+            }
+        }
+
+        return dp[len-1][3];
+    }
+
+    // space optimization 
+    public int maxpointsSpace(int[][] points) {
+        int len = points.length;
+
+        int[] prev = new int[len + 1];
+
+        // base case => remove loop 
+        // assign the values directly
+
+        prev[0] = Math.max(points[0][1], points[0][2]);
+        prev[1] = Math.max(points[0][0], points[0][2]);
+        prev[2] = Math.max(points[0][0], points[0][1]);
+
+        // next case is => only when there is only one day in whole scenario
+        prev[3] = Math.max(points[0][3], Math.max(points[0][1], points[0][2]));
+
+        // from day 1 to day last 
+        for(int day=1; day<len-1; day++) {
+            // for each day => 4 possible options
+            int[] curr = new int[4];    // 4 choices => only for last day 
+            for(int last=0; last<4; last++) {
+                // doing each task with keeping last activity in mind
+
+                curr[last] = 0;
+                for(int task=0; task<3; task++) {
+                    if(task != last) {
+                        int point = points[day][task] + prev[task];    // add prev points which gives max 
+
+                        // because we're trying multiple choices and want to keep the best one.
+                        curr[last] = Math.max(point, curr[last]);
+                    }
+                }
+            }
+
+            prev = curr;
+        }
+
+        return prev[3];
+    }
+
 }
 
