@@ -9,8 +9,6 @@ Return an array lengths of length k where lengths[i] is the length of the longes
 */
 
 public class Longest_Substring_of_One_Repeating_Character {
-    class Solution {
-
     static class Node {
         char leftOne;
         char rightOne;
@@ -103,5 +101,4 @@ public class Longest_Substring_of_One_Repeating_Character {
             tree[node * 2 + 1]
         );
     }
-}
 }
