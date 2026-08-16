@@ -1,5 +1,7 @@
 package org.shrey.dsa.leetcode.august;
 
+import java.util.*;
+
 /*
 You are given a 0-indexed string s. You are also given a 0-indexed string queryCharacters of length k and a 0-indexed array of integer indices queryIndices of length k, both of which are used to describe k queries.
 
@@ -100,5 +102,59 @@ public class Longest_Substring_of_One_Repeating_Character {
             tree[node * 2],
             tree[node * 2 + 1]
         );
+    }
+}
+
+class Solution {
+    public long elevatorRequests(int n, int start, int[][] arr) {
+        int len = arr.length;
+        int maxPossible = 1 << len;
+        int[][] dp = new int[maxPossible][len];
+
+        for(int[] each: dp) {
+            Arrays.fill(each, Integer.MAX_VALUE);
+        }
+
+        for(int i=0; i<len; i++) {
+            int arrivalTime = arr[i][0];
+            int destFloor = arr[i][1];
+
+            dp[1<<i][i] = Math.max(Math.abs(start - destFloor), arrivalTime);
+        }
+
+        // all bitmasks iteration
+        for(int mask=1; mask<maxPossible; mask++) {
+            for(int i=0; i<len; i++) {
+                if((mask & (1 << i)) == 0) continue;
+                if(dp[mask][i] == Integer.MAX_VALUE) continue;
+
+                int currTime = dp[mask][i];
+                int currFloor = arr[i][1];
+
+                // going to remaining requests => arr[]
+
+                for(int j=0; j<len; j++) {
+                    if((mask & (1 << j)) != 0) continue;
+
+                    int nextTimeArrival = arr[j][0];
+                    int nextFloorListed = arr[j][1];
+
+                    int travelTime = Math.abs(currFloor - nextFloorListed);
+                    int nextTime = Math.max(currTime + travelTime, nextTimeArrival);
+
+                    int nextMask = mask | (1 << j);
+                    if(nextTime < dp[nextMask][j]) {
+                        dp[nextMask][j] = nextTime;
+                    }
+                }
+            }
+        }
+
+        int res = Integer.MAX_VALUE;
+        for(int idx=0; idx<len; idx++) {
+            res = Math.min(res, dp[maxPossible - 1][idx]);
+        }
+
+        return res;
     }
 }
