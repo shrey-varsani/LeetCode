@@ -80,7 +80,7 @@ public class TraversalsStack {
                 curr = curr.left;
             }
 
-            Node peek = stk.pop();
+            Node peek = stk.peek();
             if(peek.right != null && lastVisit != peek.right) {
                 curr = peek.right;
             } else {
