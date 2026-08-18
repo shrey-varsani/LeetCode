@@ -41,7 +41,7 @@ public class TopView {
 
         public Pair(Node node, int row) {
             this.node = node;
-            this.pair = pair;
+            this.row = row;
         }
     }
 }
