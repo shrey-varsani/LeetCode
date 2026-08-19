@@ -17,6 +17,7 @@ public class TopView {
             Node node = curr.node;
             int dist = curr.row;
 
+            // only the first node 
             if(!map.containsKey(node.val)) {
                 map.put(dist, node.val);        // key, value => row, node value
             }
